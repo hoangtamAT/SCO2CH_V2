@@ -1,0 +1,580 @@
+package com.simcontrol.k.sco;
+
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    Boolean tb1Stt=false,tb2Stt=false;
+    Boolean sent=true;
+    TextView txttb1,txttb2,txttitle,txtinfo,txtaddress,txtphone;
+    Button btnon1,btnon2,btnoff1,btnoff2,btnonall,btnoffall,btnok,btncancle;
+    EditText edtrename;
+    Dialog dialog;
+    int save1,save2;
+    String title;
+    String info;
+    String address;
+    String phoneinfo;
+    public static String phoneNumber,on1,on2,off1,off2,onall,offall;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    FloatingActionButton fabmn,fabex;
+
+    //TimePicker timePicker;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        AnhXa();
+        getShare();
+        setStatus();
+        CheckPermission();
+        HandleButton();
+    }
+
+    private void CheckPermission() {
+        //check  SMS Permission
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS},
+                    0);
+        }
+    }
+
+    private void HandleButton() {
+
+        btnon1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checksdt()) {
+                    btnon1.setEnabled(false);
+                    sendSMS(phoneNumber, on1);
+                    if (sent) {
+                        //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
+                        txttb1.setBackgroundResource(R.drawable.round_txt_green);
+                        ShareEdit();
+                        editor.putInt("save1", 1);
+                        editor.apply();
+                        btnon1.setEnabled(true);
+                        sent = false;
+                    }
+                } else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
+            }
+        });
+        btnoff1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checksdt()) {
+                    btnoff1.setEnabled(false);
+                    sendSMS(phoneNumber, off1);
+                    if (sent) {
+                        //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
+                        txttb1.setBackgroundResource(R.drawable.roundtxt);
+                        ShareEdit();
+                        editor.putInt("save1", 0);
+                        editor.apply();
+                        btnoff1.setEnabled(true);
+                        sent = false;
+                    }
+                }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
+            }
+        });
+        btnon2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checksdt()) {
+                    btnon2.setEnabled(false);
+                    sendSMS(phoneNumber, on2);
+                    if (sent) {
+                        //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
+                        txttb2.setBackgroundResource(R.drawable.round_txt_green);
+                        ShareEdit();
+                        editor.putInt("save2", 1);
+                        editor.apply();
+                        btnon2.setEnabled(true);
+                        sent = false;
+                    }
+                }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
+            }
+        });
+        btnoff2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checksdt()) {
+                    btnoff2.setEnabled(false);
+                    sendSMS(phoneNumber, off2);
+                    if (sent) {
+                        //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
+                        txttb1.setBackgroundResource(R.drawable.roundtxt);
+                        ShareEdit();
+                        editor.putInt("save2", 0);
+                        editor.apply();
+                        btnoff2.setEnabled(true);
+                        sent = false;
+                    }
+                }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
+            }
+        });
+        btnonall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checksdt()) {
+                    btnonall.setEnabled(false);
+                    sendSMS(phoneNumber, onall);
+                    if (sent) {
+                        //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
+                        //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
+                        txttb1.setBackgroundResource(R.drawable.round_txt_green);
+                        txttb2.setBackgroundResource(R.drawable.round_txt_green);
+                        ShareEdit();
+                        editor.putInt("save1", 1);
+                        editor.putInt("save2", 1);
+                        editor.apply();
+                        btnonall.setEnabled(true);
+                        sent = false;
+                    }
+                }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
+            }
+        });
+        btnoffall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               if(checksdt()) {
+                   btnoffall.setEnabled(false);
+                   sendSMS(phoneNumber, offall);
+                   if (sent) {
+                       //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
+                       //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
+                       txttb1.setBackgroundResource(R.drawable.roundtxt);
+                       txttb2.setBackgroundResource(R.drawable.roundtxt);
+                       ShareEdit();
+                       editor.putInt("save1", 0);
+                       editor.putInt("save2", 0);
+                       editor.apply();
+                       btnoffall.setEnabled(true);
+                       sent = false;
+                   }
+               }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
+            }
+        });
+        fabmn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMenu();
+            }
+        });
+        fabex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMenuEx();
+            }
+        });
+
+        txttitle.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showDialog();
+                edtrename.setText(title);
+                btnok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txttitle.setText(edtrename.getText().toString().trim());
+                        ShareEdit();
+                        editor.putString("title",edtrename.getText().toString().trim());
+                        editor.apply();
+                        getShare();
+                        dialog.dismiss();
+                    }
+                });
+                btncancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
+        txtinfo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showDialog();
+                edtrename.setText(info);
+                btnok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtinfo.setText(edtrename.getText().toString().trim());
+                        ShareEdit();
+                        editor.putString("info",edtrename.getText().toString().trim());
+                        editor.apply();
+                        getShare();
+                        dialog.dismiss();
+                    }
+                });
+                btncancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
+        txtaddress.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showDialog();
+                edtrename.setText(address);
+                btnok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtaddress.setText(edtrename.getText().toString().trim());
+                        ShareEdit();
+                        editor.putString("address",edtrename.getText().toString().trim());
+                        editor.apply();
+                        getShare();
+                        dialog.dismiss();
+                    }
+                });
+                btncancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
+        txtphone.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                showDialog();
+                edtrename.setText(phoneinfo);
+                btnok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txtphone.setText(edtrename.getText().toString().trim());
+                        ShareEdit();
+                        editor.putString("phoneinfo",edtrename.getText().toString().trim());
+                        editor.apply();
+                        dialog.dismiss();
+                    }
+                });
+                btncancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
+        txttb1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                showDialog();
+                edtrename.setText(sharedPreferences.getString("Nametb1","TB1"));
+                btnok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txttb1.setText(edtrename.getText().toString().trim());
+                        ShareEdit();
+                        editor.putString("Nametb1",edtrename.getText().toString().trim());
+                        editor.apply();
+                        getShare();
+                        dialog.dismiss();
+                    }
+                });
+                btncancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
+        txttb2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                showDialog();
+                edtrename.setText(sharedPreferences.getString("Nametb2","TB2"));
+                btnok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        txttb2.setText(edtrename.getText().toString().trim());
+                        ShareEdit();
+                        editor.putString("Nametb2",edtrename.getText().toString().trim());
+                        editor.apply();
+                        getShare();
+                        dialog.dismiss();
+                    }
+                });
+                btncancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
+
+
+    }
+
+    private void AnhXa() {
+        txttb1 =(TextView) findViewById(R.id.txttb1);
+        txttb2 = (TextView) findViewById(R.id.txttb2);
+        txttitle= (TextView) findViewById(R.id.txttitle);
+        txtinfo= (TextView) findViewById(R.id.txtinfo);
+        txtaddress= (TextView) findViewById(R.id.txtaddress);
+        txtphone= (TextView) findViewById(R.id.txtphonenumber);
+
+        btnoff1= (Button) findViewById(R.id.btnoff1);
+        btnoff2= (Button) findViewById(R.id.btnoff2);
+        btnon1= (Button) findViewById(R.id.btnon1);
+        btnon2= (Button) findViewById(R.id.btnon2);
+        btnonall = (Button) findViewById(R.id.btnonall);
+        btnoffall = (Button) findViewById(R.id.btnoffall);
+
+        fabmn = (FloatingActionButton) findViewById(R.id.fabmn);
+        fabex = (FloatingActionButton) findViewById(R.id.fabex);
+
+    }
+
+    public void sendSMS(String phoneNumber, String message)
+    {
+        String SENT			= "SMS_SENT";
+        String DELIVERED	= "SMS_DELIVERED";
+
+        PendingIntent sentPI		= PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
+        PendingIntent deliveredPI	= PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
+
+        //---when the SMS has been sent---
+        registerReceiver(new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode())
+                {
+                    case Activity.RESULT_OK:
+                        // SMS sent
+                        sent=true;
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        // SMS fail without reason
+
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        // No service
+
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        // Null PDU
+
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        // Radio off
+
+                        break;
+                }
+            }
+        }, new IntentFilter(SENT));
+
+        //---when the SMS has been delivered---
+        registerReceiver(new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode())
+                {
+                    case Activity.RESULT_OK:
+                        // SMS delivered"
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        // SMS not delivered
+                        //Toast.makeText(MainActivity.this, "Not delivered", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(DELIVERED));
+
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+    }
+    private void showDialog()
+    {
+        dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_rename);
+        dialog.show();
+        dialog.setCancelable(false);
+
+        edtrename = (EditText) dialog.findViewById(R.id.edtrename);
+        btnok = (Button) dialog.findViewById(R.id.btnok);
+        btncancle = (Button) dialog.findViewById(R.id.btncancle);
+    }
+
+    private void setStatus()
+    {
+        //if(save1==1) txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
+        //if(save2==1) txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
+        if(save1==1) txttb1.setBackgroundResource(R.drawable.round_txt_green);
+        if(save2==1) txttb2.setBackgroundResource(R.drawable.round_txt_green);
+
+    }
+    private boolean checksdt()
+    {
+        if(phoneNumber.isEmpty())
+        {
+            return false;
+        }else return true;
+    }
+
+        public void showAlertDialog(String note,String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(note);
+        builder.setMessage(msg);
+        builder.setCancelable(false);
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+    private void ShareEdit(){
+        sharedPreferences = getSharedPreferences("AT",MODE_PRIVATE);
+        editor=sharedPreferences.edit();
+    }
+    public void getShare() {
+        sharedPreferences = getSharedPreferences("AT", MODE_PRIVATE);
+        txttb1.setText(sharedPreferences.getString("Nametb1","TB1"));
+        txttb2.setText(sharedPreferences.getString("Nametb2","TB2"));
+        phoneNumber = sharedPreferences.getString("CurrentPhone","");
+        on1 = sharedPreferences.getString("cmdon1","ON1");
+        on2 = sharedPreferences.getString("cmdon2","ON2");
+        off1 = sharedPreferences.getString("cmdoff1","OFF1");
+        off2 = sharedPreferences.getString("cmdoff2","OFF2");
+        onall = sharedPreferences.getString("cmdallon","ON");
+        offall = sharedPreferences.getString("cmdalloff","OFF");
+        save1 = sharedPreferences.getInt("save1",0);
+        save2 = sharedPreferences.getInt("save2",0);
+
+        title = sharedPreferences.getString("title","TÊN VƯỜN,DỰ ÁN");
+        info = sharedPreferences.getString("info","thông tin, giới thiệu, tiêu chí");
+        address = sharedPreferences.getString("address","Địa chỉ: 123 đường XYZ, phường ABC, Tp. TTT");
+        phoneinfo = sharedPreferences.getString("phoneinfo","Điện thoại: 0123 456 789");
+        txttitle.setText(title);
+        txtinfo.setText(info);
+        txtaddress.setText(address);
+        txtphone.setText(phoneinfo);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.mnsettings:
+                Intent gost = new Intent(MainActivity.this,SettingsActivity.class);
+                startActivity(gost);
+                break;
+            case R.id.mninfo:
+                Intent goinfo = new Intent(MainActivity.this,AboutActivity.class);
+                startActivity(goinfo);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showMenu()
+    {
+        PopupMenu popupMenu = new PopupMenu(this,fabmn);
+        popupMenu.getMenuInflater().inflate(R.menu.main_menu,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.mnsettings:
+                        Intent gosetting = new Intent(MainActivity.this,SettingsActivity.class);
+                        startActivity(gosetting);
+                        break;
+                    case R.id.mninfo:
+                        Intent goAbout = new Intent(MainActivity.this,AboutActivity.class);
+                        startActivity(goAbout);
+                        break;
+                }
+
+                return false;
+            }
+        });
+        popupMenu.show();
+
+
+
+    }
+    private void showMenuEx()
+    {
+        PopupMenu popupMenuEx = new PopupMenu(this,fabex);
+        popupMenuEx.getMenuInflater().inflate(R.menu.extension_menu,popupMenuEx.getMenu());
+        popupMenuEx.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.mnkttk:
+                        Toast.makeText(MainActivity.this, "kiểm tra tài khoản", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.mnkttt:
+                        Toast.makeText(MainActivity.this, "Kiểm tra trạng thái", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.mnNaptien:
+                        Toast.makeText(MainActivity.this, "Nạp tiền", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+                return false;
+            }
+        });
+        popupMenuEx.show();
+    }
+}

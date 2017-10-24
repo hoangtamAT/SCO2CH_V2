@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.simcontrol.k.sco.AboutActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvNameapp"
+            android:textSize="21sp"
+            android:layout_below="@+id/imgLogo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="SIM CONTROL"
+            android:textStyle="bold"
+            android:background="#106669"
+            android:textColor="#fff"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:id="@+id/tvInfoapp"
+            android:layout_below="@+id/tvNameapp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="Điều khiển thiết bị từ xa thông qua SMS. Điều khiển on/off từng kênh hoặc on/off tất cả các kênh."
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLienhe"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#1b2476"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tvInfoapp"
+            android:layout_marginTop="15dp"
+            android:text="Liên Hệ"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvLienhe"
+            android:id="@+id/tvdt"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="18sp"
+            android:textColor="#155878"
+            android:text="ĐT: 096 4444 373"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvdt"
+            android:id="@+id/tvmail"
+            android:layout_centerHorizontal="true"
+            android:textSize="18sp"
+            android:textColor="#155878"
+            android:text="Mail: ctagrouphcm@gmail.com"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvmail"
+            android:text="Design by AT"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:textColor="#c0cbcc"
+            />
+
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="125dp"
+            android:id="@+id/imgLogo"
+            android:src="@drawable/logocta"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            />
+
+</RelativeLayout>
