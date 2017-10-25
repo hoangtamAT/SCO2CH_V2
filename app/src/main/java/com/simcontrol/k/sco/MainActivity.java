@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,15 +33,17 @@ public class MainActivity extends AppCompatActivity {
     Boolean tb1Stt=false,tb2Stt=false;
     Boolean sent=true;
     TextView txttb1,txttb2,txttitle,txtinfo,txtaddress,txtphone;
-    Button btnon1,btnon2,btnoff1,btnoff2,btnonall,btnoffall,btnok,btncancle;
-    EditText edtrename;
+    Button btnon1,btnon2,btnoff1,btnoff2,btnonall,btnoffall,btnok,btncancle,btnnap,btnmathehuy,btnaddok,btnaddhuy;
+    EditText edtrename,edtmathe,edtaddsdt;
+    RadioButton rdb1,rdb2,rdb3;
     Dialog dialog;
     int save1,save2;
+    int numPos;
     String title;
-    String info;
+    String info,password;
     String address;
     String phoneinfo;
-    public static String phoneNumber,on1,on2,off1,off2,onall,offall;
+    public static String phoneNumber,on1,on2,off1,off2,onall,offall,kttt,kttk,notifon,notifoff,addsdt,doimk,naptien;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     FloatingActionButton fabmn,fabex;
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checksdt()) {
                     btnon1.setEnabled(false);
-                    sendSMS(phoneNumber, on1);
+                    sendSMS(phoneNumber, on1+".");
                     if (sent) {
                         //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
                         txttb1.setBackgroundResource(R.drawable.round_txt_green);
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checksdt()) {
                     btnoff1.setEnabled(false);
-                    sendSMS(phoneNumber, off1);
+                    sendSMS(phoneNumber, off1+".");
                     if (sent) {
                         //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
                         txttb1.setBackgroundResource(R.drawable.roundtxt);
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checksdt()) {
                     btnon2.setEnabled(false);
-                    sendSMS(phoneNumber, on2);
+                    sendSMS(phoneNumber, on2+".");
                     if (sent) {
                         //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
                         txttb2.setBackgroundResource(R.drawable.round_txt_green);
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checksdt()) {
                     btnoff2.setEnabled(false);
-                    sendSMS(phoneNumber, off2);
+                    sendSMS(phoneNumber, off2+".");
                     if (sent) {
                         //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
                         txttb1.setBackgroundResource(R.drawable.roundtxt);
@@ -147,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checksdt()) {
                     btnonall.setEnabled(false);
-                    sendSMS(phoneNumber, onall);
+                    sendSMS(phoneNumber, onall+".");
                     if (sent) {
                         //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
                         //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                if(checksdt()) {
                    btnoffall.setEnabled(false);
-                   sendSMS(phoneNumber, offall);
+                   sendSMS(phoneNumber, offall+".");
                    if (sent) {
                        //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
                        //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
@@ -428,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
         }, new IntentFilter(DELIVERED));
 
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+        sms.sendTextMessage(phoneNumber, null,"#" + password + " " + message, sentPI, deliveredPI);
     }
     private void showDialog()
     {
@@ -482,12 +485,21 @@ public class MainActivity extends AppCompatActivity {
         txttb1.setText(sharedPreferences.getString("Nametb1","TB1"));
         txttb2.setText(sharedPreferences.getString("Nametb2","TB2"));
         phoneNumber = sharedPreferences.getString("CurrentPhone","");
+        password = sharedPreferences.getString("password","0000");
         on1 = sharedPreferences.getString("cmdon1","ON1");
         on2 = sharedPreferences.getString("cmdon2","ON2");
         off1 = sharedPreferences.getString("cmdoff1","OFF1");
         off2 = sharedPreferences.getString("cmdoff2","OFF2");
         onall = sharedPreferences.getString("cmdallon","ON");
         offall = sharedPreferences.getString("cmdalloff","OFF");
+        kttk = sharedPreferences.getString("cmdkttk","kttk");
+        kttt = sharedPreferences.getString("cmdkttt","kttt");
+        notifoff = sharedPreferences.getString("cmdnotifoff","tb off");
+        notifon = sharedPreferences.getString("cmdnotifon","tb on");
+        addsdt = sharedPreferences.getString("cmdaddsdt","sdt");
+        doimk = sharedPreferences.getString("cmddoimk","doimk");
+        naptien = sharedPreferences.getString("cmdnaptien","naptien");
+
         save1 = sharedPreferences.getInt("save1",0);
         save2 = sharedPreferences.getInt("save2",0);
 
@@ -499,6 +511,7 @@ public class MainActivity extends AppCompatActivity {
         txtinfo.setText(info);
         txtaddress.setText(address);
         txtphone.setText(phoneinfo);
+
     }
 
     @Override
@@ -552,23 +565,61 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    private void showMenuEx()
-    {
-        PopupMenu popupMenuEx = new PopupMenu(this,fabex);
-        popupMenuEx.getMenuInflater().inflate(R.menu.extension_menu,popupMenuEx.getMenu());
+    private void showMenuEx() {
+        PopupMenu popupMenuEx = new PopupMenu(this, fabex);
+        popupMenuEx.getMenuInflater().inflate(R.menu.extension_menu, popupMenuEx.getMenu());
         popupMenuEx.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
+                switch (menuItem.getItemId()) {
                     case R.id.mnkttk:
-                        Toast.makeText(MainActivity.this, "kiểm tra tài khoản", Toast.LENGTH_SHORT).show();
+                        sendSMS(phoneNumber, kttk + ".");
+                        Toast.makeText(MainActivity.this, "Đã gửi, vui lòng kiểm tra Sms đến", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.mnkttt:
-                        Toast.makeText(MainActivity.this, "Kiểm tra trạng thái", Toast.LENGTH_SHORT).show();
+                        sendSMS(phoneNumber, kttt + ".");
+                        Toast.makeText(MainActivity.this, "Đã gửi, vui lòng kiểm tra Sms đến", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.mnNaptien:
-                        Toast.makeText(MainActivity.this, "Nạp tiền", Toast.LENGTH_SHORT).show();
+                        dialog = new Dialog(MainActivity.this);
+                        dialog.setContentView(R.layout.dialog_naptien);
+                        dialog.show();
+                        dialog.setCancelable(false);
+
+                        edtmathe = (EditText) dialog.findViewById(R.id.edtmathe);
+                        btnnap = (Button) dialog.findViewById(R.id.btnnapthe);
+                        btnmathehuy = (Button) dialog.findViewById(R.id.btnnapthehuy);
+                        btnmathehuy.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+                        btnnap.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String mathecao = edtmathe.getText().toString().trim();
+                                if (mathecao.length() < 13) {
+                                    showAlertDialog("Thông báo", "Mã thẻ cào gồm 13 chữ số");
+                                } else {
+                                    sendSMS(phoneNumber, naptien + " " + mathecao + ".");
+                                    Toast.makeText(MainActivity.this, "Đã nạp thẻ, vui lòng kiểm tra Sms đến", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
+                        break;
+                    case R.id.mnaddsdt:
+                        addNumberPhone();
+                        break;
+                    case R.id.mntattb:
+                        Toast.makeText(MainActivity.this, "Đã gửi, vui lòng kiểm tra Sms đến", Toast.LENGTH_SHORT).show();
+                        sendSMS(phoneNumber, notifoff + ".");
+                        break;
+                    case R.id.mnbattb:
+                        Toast.makeText(MainActivity.this, "Đã gửi, vui lòng kiểm tra Sms đến", Toast.LENGTH_SHORT).show();
+                        sendSMS(phoneNumber, notifon + ".");
                         break;
                 }
 
@@ -576,5 +627,77 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         popupMenuEx.show();
+        }
+        private void addNumberPhone()
+        {
+            dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.dialog_add_sdt);
+            dialog.show();
+            dialog.setCancelable(false);
+
+
+            edtaddsdt = (EditText) dialog.findViewById(R.id.edtaddsdt);
+            btnaddok = (Button) dialog.findViewById(R.id.btnaddsdtthem);
+            btnaddhuy = (Button) dialog.findViewById(R.id.btnaddsdthuy);
+            rdb1 = (RadioButton) dialog.findViewById(R.id.rdbsdt1);
+            rdb2 = (RadioButton) dialog.findViewById(R.id.rdbsdt2);
+            rdb3 = (RadioButton) dialog.findViewById(R.id.rdbsdt3);
+
+
+            rdb1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rdb1.setChecked(true);
+                    rdb2.setChecked(false);
+                    rdb3.setChecked(false);
+                    numPos=1;
+                }
+            });
+            rdb2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rdb1.setChecked(false);
+                    rdb2.setChecked(true);
+                    rdb3.setChecked(false);
+                    numPos=2;
+                }
+            });
+            rdb3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rdb1.setChecked(false);
+                    rdb2.setChecked(false);
+                    rdb3.setChecked(true);
+                    numPos=3;
+                }
+            });
+
+            btnaddhuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            btnaddok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String numberAdd = edtaddsdt.getText().toString().trim();
+                    if(rdb1.isChecked()||rdb2.isChecked()||rdb3.isChecked())
+                    {
+                        if(numberAdd.length()<10)
+                        {
+                            showAlertDialog("Thông báo","Kiểm tra lại sđt");
+                        }else {
+                            sendSMS(phoneNumber,addsdt + numPos + " " + numberAdd + ".");
+                            Toast.makeText(MainActivity.this, "Đã gửi, kiểm tra Sms đến sau ít phút", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    }else {
+                        showAlertDialog("Thông báo","Vui lòng chọn sđt nào để thêm");
+                    }
+                }
+            });
+        }
+
     }
-}
+

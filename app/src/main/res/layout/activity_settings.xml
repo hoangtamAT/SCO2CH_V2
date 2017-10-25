@@ -122,12 +122,13 @@
     </LinearLayout>
     <Button
         android:layout_width="200dp"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:layout_below="@+id/ln5"
         android:id="@+id/btndoimk"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/roundtxt"
+        android:backgroundTint="#e18239"
         android:text="Đổi mật khẩu"
         android:textColor="#fff"
 

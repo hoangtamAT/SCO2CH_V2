@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="320dp"
+    android:layout_height="300dp"
+    android:background="@drawable/roundbtn"
+    android:gravity="center"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="THÊM SỐ ĐIỆN THOẠI"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"
+        />
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        >
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#ca7233"
+            android:weightSum="3"
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/rdbsdt1"
+                android:text="sđt 1"
+                android:buttonTint="#fff"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/rdbsdt2"
+                android:buttonTint="#fff"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:text="sđt 2"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/rdbsdt3"
+                android:buttonTint="#fff"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:text="sđt 3"
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:hint="Nhập sđt"
+        android:inputType="number"
+        android:maxLength="11"
+        android:textSize="17sp"
+        android:background="#fff"
+        android:id="@+id/edtaddsdt"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HỦY"
+            android:textColor="#171c58"
+            android:textSize="18sp"
+            android:layout_marginRight="18dp"
+            android:background="#d4e3e9"
+            android:id="@+id/btnaddsdthuy"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnaddsdtthem"
+            android:text="THÊM"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:background="#0d7e97"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

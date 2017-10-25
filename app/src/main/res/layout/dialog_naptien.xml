@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="320dp"
+    android:layout_height="300dp"
+    android:background="#ededed"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Mời nhập số thẻ cào bên dưới"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:background="#0d5066"
+        android:textColor="#fff"
+        android:padding="5dp"
+        />
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:inputType="number"
+        android:maxLength="13"
+        android:background="#e9bf7b"
+        android:id="@+id/edtmathe"
+        android:hint="Nhập mã thẻ"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HỦY"
+            android:textColor="#171c58"
+            android:textSize="18sp"
+            android:layout_marginRight="18dp"
+            android:background="#a4abae"
+            android:id="@+id/btnnapthehuy"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnnapthe"
+            android:text="NẠP"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:background="#0d7e97"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -6,4 +6,10 @@
         android:id="@+id/mnkttt"/>
     <item android:title="Nạp tiền"
         android:id="@+id/mnNaptien"/>
+    <item android:title="Thêm sdt"
+        android:id="@+id/mnaddsdt"/>
+    <item android:title="Tắt thông báo"
+        android:id="@+id/mntattb"/>
+    <item android:title="Bật thông báo"
+        android:id="@+id/mnbattb"/>
 </menu>
