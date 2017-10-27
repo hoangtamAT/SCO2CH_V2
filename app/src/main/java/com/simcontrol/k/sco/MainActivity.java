@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,11 +32,12 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Boolean tb1Stt=false,tb2Stt=false;
-    Boolean sent=true;
+    Boolean sent=false;
     TextView txttb1,txttb2,txttitle,txtinfo,txtaddress,txtphone;
     Button btnon1,btnon2,btnoff1,btnoff2,btnonall,btnoffall,btnok,btncancle,btnnap,btnmathehuy,btnaddok,btnaddhuy;
     EditText edtrename,edtmathe,edtaddsdt;
     RadioButton rdb1,rdb2,rdb3;
+    ProgressBar pb1, pb2;
     Dialog dialog;
     int save1,save2;
     int numPos;
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     FloatingActionButton fabmn,fabex;
-
     //TimePicker timePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +79,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checksdt()) {
                     btnon1.setEnabled(false);
+                    btnoff1.setEnabled(false);
+                    btnoff2.setEnabled(false);
+                    btnon2.setEnabled(false);
+                    btnonall.setEnabled(false);
+                    btnoffall.setEnabled(false);
+                    pb1.setVisibility(View.VISIBLE);
                     sendSMS(phoneNumber, on1+".");
-                    if (sent) {
+
                         //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
                         txttb1.setBackgroundResource(R.drawable.round_txt_green);
                         ShareEdit();
                         editor.putInt("save1", 1);
                         editor.apply();
-                        btnon1.setEnabled(true);
-                        sent = false;
-                    }
+
                 } else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
             }
         });
@@ -95,17 +100,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checksdt()) {
+                    btnon1.setEnabled(false);
                     btnoff1.setEnabled(false);
+                    btnoff2.setEnabled(false);
+                    btnon2.setEnabled(false);
+                    btnonall.setEnabled(false);
+                    btnoffall.setEnabled(false);
+                    pb1.setVisibility(View.VISIBLE);
                     sendSMS(phoneNumber, off1+".");
-                    if (sent) {
                         //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
                         txttb1.setBackgroundResource(R.drawable.roundtxt);
                         ShareEdit();
                         editor.putInt("save1", 0);
                         editor.apply();
-                        btnoff1.setEnabled(true);
-                        sent = false;
-                    }
                 }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
             }
         });
@@ -113,17 +120,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checksdt()) {
+                    btnon1.setEnabled(false);
+                    btnoff1.setEnabled(false);
+                    btnoff2.setEnabled(false);
                     btnon2.setEnabled(false);
+                    btnonall.setEnabled(false);
+                    btnoffall.setEnabled(false);
+                    pb2.setVisibility(View.VISIBLE);
                     sendSMS(phoneNumber, on2+".");
-                    if (sent) {
+
                         //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
                         txttb2.setBackgroundResource(R.drawable.round_txt_green);
                         ShareEdit();
                         editor.putInt("save2", 1);
                         editor.apply();
-                        btnon2.setEnabled(true);
-                        sent = false;
-                    }
+
                 }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
             }
         });
@@ -131,17 +142,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checksdt()) {
+                    btnon1.setEnabled(false);
+                    btnoff1.setEnabled(false);
                     btnoff2.setEnabled(false);
+                    btnon2.setEnabled(false);
+                    btnonall.setEnabled(false);
+                    btnoffall.setEnabled(false);
+                    pb2.setVisibility(View.VISIBLE);
                     sendSMS(phoneNumber, off2+".");
-                    if (sent) {
+
                         //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
-                        txttb1.setBackgroundResource(R.drawable.roundtxt);
+                        txttb2.setBackgroundResource(R.drawable.roundtxt);
                         ShareEdit();
                         editor.putInt("save2", 0);
                         editor.apply();
-                        btnoff2.setEnabled(true);
-                        sent = false;
-                    }
+
+
                 }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
             }
         });
@@ -149,9 +165,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checksdt()) {
+                    btnon1.setEnabled(false);
+                    btnoff1.setEnabled(false);
+                    btnoff2.setEnabled(false);
+                    btnon2.setEnabled(false);
                     btnonall.setEnabled(false);
+                    btnoffall.setEnabled(false);
+                    pb1.setVisibility(View.VISIBLE);
+                    pb2.setVisibility(View.VISIBLE);
                     sendSMS(phoneNumber, onall+".");
-                    if (sent) {
+
                         //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
                         //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
                         txttb1.setBackgroundResource(R.drawable.round_txt_green);
@@ -160,9 +183,8 @@ public class MainActivity extends AppCompatActivity {
                         editor.putInt("save1", 1);
                         editor.putInt("save2", 1);
                         editor.apply();
-                        btnonall.setEnabled(true);
-                        sent = false;
-                    }
+
+
                 }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
             }
         });
@@ -170,9 +192,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                if(checksdt()) {
+                   btnon1.setEnabled(false);
+                   btnoff1.setEnabled(false);
+                   btnoff2.setEnabled(false);
+                   btnon2.setEnabled(false);
+                   btnonall.setEnabled(false);
                    btnoffall.setEnabled(false);
+                   pb1.setVisibility(View.VISIBLE);
+                   pb2.setVisibility(View.VISIBLE);
                    sendSMS(phoneNumber, offall+".");
-                   if (sent) {
+
                        //txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
                        //txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(209, 211, 209)));
                        txttb1.setBackgroundResource(R.drawable.roundtxt);
@@ -181,9 +210,8 @@ public class MainActivity extends AppCompatActivity {
                        editor.putInt("save1", 0);
                        editor.putInt("save2", 0);
                        editor.apply();
-                       btnoffall.setEnabled(true);
-                       sent = false;
-                   }
+
+
                }else showAlertDialog("Thông báo","Bạn chưa thêm sđt cần gửi!");
             }
         });
@@ -370,6 +398,9 @@ public class MainActivity extends AppCompatActivity {
         btnonall = (Button) findViewById(R.id.btnonall);
         btnoffall = (Button) findViewById(R.id.btnoffall);
 
+        pb1 = (ProgressBar) findViewById(R.id.pb1);
+        pb2 = (ProgressBar) findViewById(R.id.pb2);
+
         fabmn = (FloatingActionButton) findViewById(R.id.fabmn);
         fabex = (FloatingActionButton) findViewById(R.id.fabex);
 
@@ -391,23 +422,80 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case Activity.RESULT_OK:
                         // SMS sent
-                        sent=true;
+                        //sent=true;
+                        //Toast.makeText(MainActivity.this, "sent!", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         // SMS fail without reason
-
+                        pb1.setVisibility(View.INVISIBLE);
+                        pb2.setVisibility(View.INVISIBLE);
+                        btnoff1.setEnabled(true);
+                        btnoff2.setEnabled(true);
+                        btnon1.setEnabled(true);
+                        btnon2.setEnabled(true);
+                        btnoffall.setEnabled(true);
+                        btnonall.setEnabled(true);
+                        ShareEdit();
+                        editor.putInt("save1", save1);
+                        editor.putInt("save2",save2);
+                        editor.apply();
+                        setStatus();
+                        showAlertDialog("Thông báo","Gửi thất bại");
+                        //Toast.makeText(MainActivity.this, "sent fail", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
                         // No service
-
+                        pb1.setVisibility(View.INVISIBLE);
+                        pb2.setVisibility(View.INVISIBLE);
+                        btnoff1.setEnabled(true);
+                        btnoff2.setEnabled(true);
+                        btnon1.setEnabled(true);
+                        btnon2.setEnabled(true);
+                        btnoffall.setEnabled(true);
+                        btnonall.setEnabled(true);
+                        ShareEdit();
+                        editor.putInt("save1", save1);
+                        editor.putInt("save2",save2);
+                        editor.apply();
+                        setStatus();
+                        showAlertDialog("Thông báo","Gửi thất bại");
+                        //Toast.makeText(MainActivity.this, "No service", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NULL_PDU:
                         // Null PDU
-
+                        pb1.setVisibility(View.INVISIBLE);
+                        pb2.setVisibility(View.INVISIBLE);
+                        btnoff1.setEnabled(true);
+                        btnoff2.setEnabled(true);
+                        btnon1.setEnabled(true);
+                        btnon2.setEnabled(true);
+                        btnoffall.setEnabled(true);
+                        btnonall.setEnabled(true);
+                        ShareEdit();
+                        editor.putInt("save1", save1);
+                        editor.putInt("save2",save2);
+                        editor.apply();
+                        setStatus();
+                        showAlertDialog("Thông báo","Gửi thất bại");
+                        //Toast.makeText(MainActivity.this, "Null PDU", Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_RADIO_OFF:
                         // Radio off
-
+                        pb1.setVisibility(View.INVISIBLE);
+                        pb2.setVisibility(View.INVISIBLE);
+                        btnoff1.setEnabled(true);
+                        btnoff2.setEnabled(true);
+                        btnon1.setEnabled(true);
+                        btnon2.setEnabled(true);
+                        btnoffall.setEnabled(true);
+                        btnonall.setEnabled(true);
+                        ShareEdit();
+                        editor.putInt("save1", save1);
+                        editor.putInt("save2",save2);
+                        editor.apply();
+                        setStatus();
+                        showAlertDialog("Thông báo","Gửi thất bại");
+                        //Toast.makeText(MainActivity.this, "Radio off", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -421,9 +509,32 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case Activity.RESULT_OK:
                         // SMS delivered"
+                        pb1.setVisibility(View.INVISIBLE);
+                        pb2.setVisibility(View.INVISIBLE);
+                        btnoff1.setEnabled(true);
+                        btnoff2.setEnabled(true);
+                        btnon1.setEnabled(true);
+                        btnon2.setEnabled(true);
+                        btnoffall.setEnabled(true);
+                        btnonall.setEnabled(true);
+                        Toast.makeText(MainActivity.this, "Gửi thành công!", Toast.LENGTH_SHORT).show();
                         break;
                     case Activity.RESULT_CANCELED:
                         // SMS not delivered
+                        pb1.setVisibility(View.INVISIBLE);
+                        pb2.setVisibility(View.INVISIBLE);
+                        btnoff1.setEnabled(true);
+                        btnoff2.setEnabled(true);
+                        btnon1.setEnabled(true);
+                        btnon2.setEnabled(true);
+                        btnoffall.setEnabled(true);
+                        btnonall.setEnabled(true);
+                        ShareEdit();
+                        editor.putInt("save1", save1);
+                        editor.putInt("save2",save2);
+                        editor.apply();
+                        setStatus();
+                        showAlertDialog("Thông báo","Gửi thất bại");
                         //Toast.makeText(MainActivity.this, "Not delivered", Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -447,10 +558,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setStatus()
     {
+        sharedPreferences = getSharedPreferences("AT", MODE_PRIVATE);
+        save1 = sharedPreferences.getInt("save1",0);
+        save2 = sharedPreferences.getInt("save2",0);
         //if(save1==1) txttb1.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
         //if(save2==1) txttb2.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(19, 244, 12)));
         if(save1==1) txttb1.setBackgroundResource(R.drawable.round_txt_green);
+        else  txttb1.setBackgroundResource(R.drawable.roundtxt);
         if(save2==1) txttb2.setBackgroundResource(R.drawable.round_txt_green);
+        else txttb2.setBackgroundResource(R.drawable.roundtxt);
 
     }
     private boolean checksdt()

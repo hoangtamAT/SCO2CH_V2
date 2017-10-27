@@ -147,11 +147,14 @@
         android:textSize="20sp"
         android:textColor="#fff"
         />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/txttb1"
-        android:layout_weight="2"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:text="TB1"
@@ -160,7 +163,18 @@
         android:textColor="#c1400c"
         android:background="@drawable/roundtxt"
         />
-    <Button
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pb1"
+            android:indeterminateTint="#e41515"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            />
+    </RelativeLayout>
+        <Button
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
@@ -193,11 +207,15 @@
             android:textSize="20sp"
             android:textColor="#fff"
             />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/txttb2"
-            android:layout_weight="2"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:text="TB2"
@@ -205,8 +223,17 @@
             android:textSize="18sp"
             android:textColor="#c1400c"
             android:background="@drawable/roundtxt"
-
             />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pb2"
+                android:indeterminateTint="#e41515"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="invisible"
+                />
+        </RelativeLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
