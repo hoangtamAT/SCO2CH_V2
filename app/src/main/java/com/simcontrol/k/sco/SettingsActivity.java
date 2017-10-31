@@ -131,8 +131,8 @@ public class SettingsActivity extends AppCompatActivity {
                 edtoff12.setText(sharedPreferences.getString("cmdalloff","off"));
                 edtkttk.setText(sharedPreferences.getString("cmdkttk","kttk"));
                 edtkttt.setText(sharedPreferences.getString("cmdkttt","kttt"));
-                edtnotifoff.setText(sharedPreferences.getString("cmdnotifoff","tb off"));
-                edtnotifon.setText(sharedPreferences.getString("cmdnotifon","tb on"));
+                edtnotifoff.setText(sharedPreferences.getString("cmdnotifoff","thongbao off"));
+                edtnotifon.setText(sharedPreferences.getString("cmdnotifon","thongbao on"));
                 edtaddsdt.setText(sharedPreferences.getString("cmdaddsdt","sdt"));
                 edtdoimk.setText(sharedPreferences.getString("cmddoimk","doimk"));
                 edtnaptien.setText(sharedPreferences.getString("cmdnaptien","naptien"));

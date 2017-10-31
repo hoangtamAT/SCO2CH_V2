@@ -610,8 +610,8 @@ public class MainActivity extends AppCompatActivity {
         offall = sharedPreferences.getString("cmdalloff","OFF");
         kttk = sharedPreferences.getString("cmdkttk","kttk");
         kttt = sharedPreferences.getString("cmdkttt","kttt");
-        notifoff = sharedPreferences.getString("cmdnotifoff","tb off");
-        notifon = sharedPreferences.getString("cmdnotifon","tb on");
+        notifoff = sharedPreferences.getString("cmdnotifoff","thongbao off");
+        notifon = sharedPreferences.getString("cmdnotifon","thongbao on");
         addsdt = sharedPreferences.getString("cmdaddsdt","sdt");
         doimk = sharedPreferences.getString("cmddoimk","doimk");
         naptien = sharedPreferences.getString("cmdnaptien","naptien");
